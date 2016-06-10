@@ -74,3 +74,5 @@ class StudentRegistrationForm(ModelForm):
 
 
 
+
+
