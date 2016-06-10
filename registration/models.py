@@ -111,6 +111,11 @@ TYPES = (('Technical', _('Technical')), ('HR', _('HR')), ('Quantitative', _('Qua
          ('Aptitude', _('Aptitude'))
          )
 
+class TestManager(models.Manager):
+    pass
+
+
+
 
 class Test(models.Model):
     id = models.AutoField(primary_key=True)
@@ -118,6 +123,8 @@ class Test(models.Model):
     date = models.DateField(_('Test Date'), null=False)
     type = models.CharField(_('Test Type'), max_length=20,
                             choices=TYPES, blank=False, unique=False)
+
+    Objects = TestManager()
 
 class TechTest(models.Model):
     test = models.ForeignKey(Test, null=False, blank=False)

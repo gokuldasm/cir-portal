@@ -134,11 +134,21 @@ class StudentFilterExternalView(ListView):
 
 
 
-class StudentTechnicalTestEntryView(FormView):
+class StudentTechnicalTestEntryView(TemplateView):
     template_name = "register/cirstaff/tests/technical_tests.html"
-    form_class = TechnicalTestEntryForm
 
     def get_context_data(self, **kwargs):
         context = super(StudentTechnicalTestEntryView, self).get_context_data(**kwargs)
-        context['myvar'] = "tony"
+        context['myvar'] = Test.Objects.all()
         return context
+
+    def post(self,request):
+        aums_id = self.request.POST['aums_id'].lower()
+        test_id = self.request.POST['test']
+        marks = self.request.POST['mark']
+        print(aums_id + test_id + marks)
+        student = Student.Objects.get(aums_id=aums_id)
+        test = Test.Objects.get(pk=test_id)
+        TechTest.Objects.create_test_entry(student, test, marks)
+        return render_to_response('register/cirstaff/tests/technical_tests.html',
+                                  {'success': 'success', 'myvar': Test.Objects.all() })
